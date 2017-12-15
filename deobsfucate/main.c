@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 int func(int t, int c, char *s) {
-    int res;
+    int res = 0;
     if (t == 0) {
         int tmp = func(-61, s[0], "!ek;dc i@bK'(q)-[w]*%n+r3#l,{}:\nuwloca-O;m .vpbks,fxntdCeghiry");
         res = (s[0] == '/' || func(0, 300, s + 1));

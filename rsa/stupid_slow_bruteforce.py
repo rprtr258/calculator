@@ -9,6 +9,7 @@ for i in range(2, n):
 	if n % i == 0:
 		p, q = i, n // i
 		break;
+assert(p * q == n)
 print("p:", p)
 print("q:", q)
 phi = (p - 1) * (q - 1)

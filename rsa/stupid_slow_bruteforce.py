@@ -1,14 +1,3 @@
-def powMod(x, deg, module):
-    if deg == 0:
-        return 1
-    if deg == 1:
-        return x % module
-    if deg == 2:
-        return (x * x) % module
-    if deg % 2 == 1:
-        return (x * powMod(x, deg - 1, module)) % module
-    return powMod(powMod(x, deg // 2, module), 2, module)
-
 def invertMod(x, module):
     for i in range(1, module):
         if (x * i) % module == 1:
@@ -37,9 +26,9 @@ def decryptRSA(data):
     print("phi(n): %d" % (euler))
     key = invertMod(exponent, euler)
     print("secret exponent: %d" % (key))
-    result = powMod(cypher, key, module)
+    result = pow(cypher, key, module)
     return result
         
 data = getInput()
-text = decryptRSA(module, exponent, cypher)
+text = decryptRSA(data)
 print("message: %s" % (text))

@@ -28,7 +28,8 @@ def factorizeModule(module):
         if module % i == 0:
             return (i, module // i)
 
-def decryptRSA(module, exponent, cypher):
+def decryptRSA(data):
+    module, exponent, cypher = data
     prime1, prime2 = factorizeModule(module)
     print("first prime: %d" % (prime1))
     print("second prime: %d" % (prime2))
@@ -39,6 +40,6 @@ def decryptRSA(module, exponent, cypher):
     result = powMod(cypher, key, module)
     return result
         
-module, exponent, cypher = getInput()
+data = getInput()
 text = decryptRSA(module, exponent, cypher)
 print("message: %s" % (text))

@@ -13,5 +13,5 @@ for k in range(100):
     for i in range(len(s)):
         print("\x1b[{}m{}".format(clrs[(j + colshift) % len(clrs)], s[i]), end = "")
         j += (s[i] != ' ')
-    colshift = (colshift + 1) % len(clrs)
+    colshift += 1
     print()

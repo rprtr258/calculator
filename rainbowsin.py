@@ -8,7 +8,7 @@ s = sys.argv[1]
 half = len(s) // 2
 colshift = 0
 for k in range(100):
-    print(" " * (half + int(half * cos(k / 4))), end = "")
+    print(" " * half * int(1 + cos(k / 4)), end = "")
     j = 0
     for i in range(len(s)):
         print("\x1b[{}m{}".format(clrs[(j + colshift) % len(clrs)], s[i]), end = "")

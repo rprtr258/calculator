@@ -1,0 +1,67 @@
+https://github.com/xairy/mipt-ctf
+https://andrepetukhov.wordpress.com/2010/08/18/веб-безопасность-курс-молодого-бойца/
+https://docs.google.com/document/d/13zgZ_CRRHADwxf41mSSSuoJQLkMc67TXxpYLoW6lRak/edit#
+https://vk.com/topic-114366489_33670323
+
+
+
+
+https://go.contextis.com/rs/140-OCV-459/images/Glibc_Adventures-The_Forgotten_Chunks.pdf
+
+
+
+
+https://learnxinyminutes.com/ - быстрое ознакомление с языком программирования
+https://adsecurity.org/
+https://securelist.ru/analysis/obzor/27338/russkoyazychnaya-finansovaya-kiberprestupnost-kak-eto-rabotaet/
+https://securelist.ru/analysis/obzor/25509/kak-pryachut-eksplojt-paki-vo-flash-obekte/
+https://habrahabr.ru/post/134638/ - о возможности проникновения во внутреннюю сеть через роутер
+https://habrahabr.ru/company/eset/blog/303086/ - Control-flow Enforcement Technology
+http://xakep-archive.ru/xa/118/080/1.htm - TLS(Thread Local Storage)
+https://habrahabr.ru/company/mailru/blog/228681/ - вирусы
+https://xakep.ru/2008/07/29/44663/ - System Management Mode
+https://xakep.ru/2010/05/04/51978/ - System Management Mode
+https://xakep.ru/2015/02/24/hack-admin-rules-linux/ - повышение привилегий в Linux
+https://xakep.ru/2014/12/24/hack-admin-rules/ - повышение привилегий в Windows
+https://forum.antichat.ru/threads/119047/ - Быстрый Blind SQL Injection
+https://habrahabr.ru/post/122445/ - SSH
+
+
+https://freehacks.ru/showthread.php?t=2428
+https://habrahabr.ru/post/283210/
+
+/etc/natas_webpass/natas##
+Cool blogs
+https://kongwenbin.wordpress.com/
+https://pentestimonials.wordpress.com/
+https://jhalon.github.io/
+
+#many HTB
+https://rgolebiowski.blogspot.com.by/
+https://www.secnewbiecorner.tech/single-post/2017/03/01/Practice-for-OSCP
+https://habrahabr.ru/company/pentestit/blog/261569/
+
+#learnings
+https://xapax.gitbooks.io/security/content/
+https://docs.google.com/document/d/13zgZ_CRRHADwxf41mSSSuoJQLkMc67TXxpYLoW6lRak/edit#
+https://github.com/xairy/mipt-ctf
+https://www.jimwilbur.com/oscp-links/
+
+Python
+How To Code in Python 3 by Lisa Tagliaferri
+https://www.digitalocean.com/community/tutorial_series/how-to-code-in-python-3
+
+MySQL SQL Injection Cheat Sheet
+http://pentestmonkey.net/cheat-sheet/sql-injection/mysql-sql-injection-cheat-sheet
+
+Basic Linux Privilege Escalation
+https://blog.g0tmi1k.com/2011/08/basic-linux-privilege-escalation/
+
+
+
+passwordlists in kali
+/use/share/wordlists
+
+passwordlists in WEB
+https://github.com/danielmiessler/SecLists/tree/master/Passwords
+https://github.com/danielmiessler/SecLists/blob/master/Passwords/10k_most_common.txt

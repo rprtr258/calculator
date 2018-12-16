@@ -1,4 +1,5 @@
-Open .exe file with any disassembler(I used OllyDbg). Then find string literals that contains "nag nag...", they are used in message boxes we need to remove. Go to line of code where any of them are used. There we can see following code:
+Open .exe file with any disassembler(I used OllyDbg). Then find string literals that contains "nag nag...", they are used in message
+boxes we need to remove. Go to line of code where any of them are used. There we can see following code:
 Address   Hex dump          Command                                  Comments
 004010D0  |.  6A 30         PUSH 30
 004010D2  |.  68 33304000   PUSH OFFSET 00403033                     ; ASCII "Remove me!"

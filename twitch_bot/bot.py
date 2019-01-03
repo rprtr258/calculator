@@ -9,8 +9,6 @@ import time
 
 #TODO:
 #!ctf - решение цтфного таска/сервиса
-#!life - game of life running on brainfuck
-
 
 lastGuessTime = -1
 rule = "a+b=c"
@@ -70,7 +68,7 @@ def parse_message(msg):
         sys.stdout.flush()
         msg = msg.split(' ')
         options = {'!status': command_status,
-                   '!life': command_life,
+                   '!help': command_help,
                    '!246': command_246,
                    '!ctf': command_ctf}
         if msg[0] in options:
@@ -124,8 +122,11 @@ def command_status(args):
                 found = True
                 send_message(status)
 
-def command_life(args):
-    send_message('life triggered')
+def command_help(args):
+    send_message('!help - this message')
+    send_message('!status - random quote')
+    send_message('!246 - 2-4-6 game, !246 rules for details')
+    send_message('!ctf - some ctf service or task')
 
 def command_ctf(args):
     send_message('ctf triggered')

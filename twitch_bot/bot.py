@@ -64,7 +64,6 @@ def get_message(msg):
 
 def parse_message(msg):
     if len(msg) >= 1:
-        print(msg)
         sys.stdout.flush()
         msg = msg.split(' ')
         options = {'!status': command_status,

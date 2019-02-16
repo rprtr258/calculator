@@ -74,12 +74,6 @@ class Grid {
         int m_gridSize = 0;
 };
 
-int gcd(int a, int b) {
-    if (a == 0)
-        return b;
-    return gcd(b % a, a);
-}
-
 int main(int argc, char **argv) {
     printf("Argc: %d\n", argc);
     for (int i = 0; i < argc; i++)
@@ -93,28 +87,25 @@ int main(int argc, char **argv) {
     int stepSize = atoi(argv[2]);
     printf("Vertices: %d\n", vertices);
     printf("StepSize: %d\n", stepSize);
-    if (gcd(vertices, stepSize) != 1) {
-        printf("Vertices(%d) and Step size(%d) are not coprime.\n", vertices, stepSize);
-        return 0;
-    }
     Grid grid(GRID_SIZE);
     for (int i = 0; i < vertices; i++) {
-        int k = stepSize * i;
-        int x = round(radius * cos(2 * PI * k / vertices + PI / 2));
-        int y = round(radius * sin(2 * PI * k / vertices + PI / 2));
-        grid.paint(x, y, '*');
-        int k1 = stepSize * (i + 1);
-        int x1 = round(radius * cos(2 * PI * k1 / vertices + PI / 2));
-        int y1 = round(radius * sin(2 * PI * k1 / vertices + PI / 2));
-        double dx = double(x1 - x) / 100.0;
-        double dy = double(y1 - y) / 100.0;
-        int t = 0;
-        double cx = x;
-        double cy = y;
-        while (abs(cx - x1) > 1e-2 || abs(cy - y1) > 1e-2) {
-            cx += dx;
-            cy += dy;
-            grid.paint(round(cx), round(cy), '*');
+        for (int t = 0; t < vertices; t++) {
+            int k = i + stepSize * t;
+            int x = round(radius * cos(2 * PI * k / vertices + PI / 2));
+            int y = round(radius * sin(2 * PI * k / vertices + PI / 2));
+            grid.paint(x, y, '*');
+            int k1 = i + stepSize * (t + 1);
+            int x1 = round(radius * cos(2 * PI * k1 / vertices + PI / 2));
+            int y1 = round(radius * sin(2 * PI * k1 / vertices + PI / 2));
+            double dx = double(x1 - x) / 100.0;
+            double dy = double(y1 - y) / 100.0;
+            double cx = x;
+            double cy = y;
+            while (abs(cx - x1) > 1e-2 || abs(cy - y1) > 1e-2) {
+                cx += dx;
+                cy += dy;
+                grid.paint(round(cx), round(cy), '*');
+            }
         }
     }
     grid.print();

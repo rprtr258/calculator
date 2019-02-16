@@ -102,9 +102,22 @@ void drawStar(Grid &grid, int vertices, int step, double initAngle) {
 }
 
 int main(int argc, char **argv) {
+    if (argc != 3) {
+        printf("Usage: StarDrawing.exe <num_of_vertices> <draw_step>\n");
+        printf("<draw_step> must be in range (0..<num_of_vertices> / 2)\n");
+        return 0;
+    }
     printf("\x1B[?25l"); // hide cursor
     int vertices = atoi(argv[1]);
     int step = atoi(argv[2]);
+    if (vertices <= 0) {
+        printf("Incorrect vertices value\n");
+        return 0;
+    }
+    if (step < 0 || step > vertices / 2) {
+        printf("Incorrect step value\n");
+        return 0;
+    }
     Grid grid(GRID_SIZE);
     double rotateSpeed = 0.05;
     double initAngle = PI / 2;

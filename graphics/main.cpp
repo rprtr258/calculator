@@ -69,6 +69,7 @@ class Grid {
                 paint(round(cx), round(cy), color);
             }
         }
+        // not tested
         char get(int x, int y) {
             x += m_gridSize;
             y = m_gridSize - y;
@@ -107,7 +108,6 @@ int main(int argc, char **argv) {
         printf("<draw_step> must be in range (0..<num_of_vertices> / 2)\n");
         return 0;
     }
-    printf("\x1B[?25l"); // hide cursor
     int vertices = atoi(argv[1]);
     int step = atoi(argv[2]);
     if (vertices <= 0) {
@@ -121,6 +121,7 @@ int main(int argc, char **argv) {
     Grid grid(GRID_SIZE);
     double rotateSpeed = 0.05;
     double initAngle = PI / 2;
+    printf("\x1B[?25l"); // hide cursor
     while (true) {
         initAngle += rotateSpeed;
         drawStar(grid, vertices, step, initAngle);

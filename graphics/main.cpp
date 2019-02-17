@@ -82,6 +82,7 @@ class Grid {
                 paint(round(cx), round(cy), color);
             }
         }
+        // not tested
         char get(int x, int y) {
             x += m_gridSize;
             y = m_gridSize - y;
@@ -114,7 +115,6 @@ int main(int argc, char **argv) {
         printf("<draw_step> must be in range (0..<num_of_vertices> / 2)\n");
         return 0;
     }
-    printf("\x1B[?25l"); // hide cursor
     int vertices = atoi(argv[1]);
     int step = atoi(argv[2]);
     if (vertices <= 0) {
@@ -127,52 +127,35 @@ int main(int argc, char **argv) {
     }
     Grid grid(GRID_SIZE);
     bool rotAroundZOrY = false;
-    if (rotAroundZOrY) {
-        double rotateSpeed = 0.05;
-        double initAngle = PI / 2;
-        while (true) {
-            initAngle += rotateSpeed;
-            vector<Point> poly;
-            for (int i = 0; i < vertices; i++) {
-                for (int t = 0; t < vertices; t++) {
-                    int k = i + step * t;
-                    double x = round(radius * cos(2 * PI * k / vertices + initAngle));
-                    double y = round(radius * sin(2 * PI * k / vertices + initAngle));
-                    poly.push_back({x, y, 0});
-                }
-            }
-            grid.drawPolygon(poly);
-            grid.print();
-            grid.clear();
-            for (int i = 0; i < radius * 2 + 1; i++)
-                printf("\x1B[1A");
-            usleep(40000);
+    double rotateSpeed = 0.05;
+    vector<Point> poly;
+    for (int i = 0; i < vertices; i++) {
+        for (int t = 0; t < vertices; t++) {
+            int k = i + step * t;
+            double x = round(radius * cos(2 * PI * k / vertices + PI / 2));
+            double y = round(radius * sin(2 * PI * k / vertices + PI / 2));
+            Point p = {x, y, 0};
+            poly.push_back(p);
         }
-    } else {
-        double rotateSpeed = 0.05;
-        vector<Point> poly;
-        for (int i = 0; i < vertices; i++) {
-            for (int t = 0; t < vertices; t++) {
-                int k = i + step * t;
-                double x = round(radius * cos(2 * PI * k / vertices + PI / 2));
-                double y = round(radius * sin(2 * PI * k / vertices + PI / 2));
-                Point p = {x, y, 0};
-                poly.push_back(p);
-            }
-        }
-        while (true) {
+    }
+    printf("\x1B[?25l"); // hide cursor
+    while (true) {
+        if (rotAroundZOrY) {
+            for (Point &p : poly)
+                p = apply(p, {{cos(rotateSpeed), -sin(rotateSpeed), 0}, {sin(rotateSpeed), cos(rotateSpeed), 0}, {0, 0, 1}}); // Z X
+        } else {
             for (Point &p : poly) {
                 p = apply(p, {{cos(rotateSpeed), 0, -sin(rotateSpeed)}, {0, 1, 0}, {sin(rotateSpeed), 0, cos(rotateSpeed)}}); // Y
                 p = apply(p, {{cos(rotateSpeed), -sin(rotateSpeed), 0}, {sin(rotateSpeed), cos(rotateSpeed), 0}, {0, 0, 1}}); // Z
                 //p = apply(p, {{1, 0, 0}, {0, cos(rotateSpeed), -sin(rotateSpeed)}, {0, sin(rotateSpeed), cos(rotateSpeed)}}); // X
             }
-            grid.drawPolygon(poly);
-            grid.print();
-            grid.clear();
-            for (int i = 0; i < radius * 2 + 1; i++)
-                printf("\x1B[1A");
-            usleep(40000);
         }
+        grid.drawPolygon(poly);
+        grid.print();
+        grid.clear();
+        for (int i = 0; i < radius * 2 + 1; i++)
+            printf("\x1B[1A");
+        usleep(40000);
     }
     return 0;
 }

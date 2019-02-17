@@ -1,14 +1,21 @@
+#include <unistd.h>
 #include <cstdio>
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
-#include <unistd.h>
+#include <vector>
 
 using namespace std;
 
 double const PI = atan(1.0) * 4;
 int const GRID_SIZE = 50;
 int const radius = 20;
+
+struct Point {
+    double x = 0;
+    double y = 0;
+    double z = 0;
+};
 
 class Grid {
     public:
@@ -53,6 +60,12 @@ class Grid {
             paint(0, m_gridSize, '^');
             paint(m_gridSize, 0, '>');
         }
+        void drawPolygon(const vector<Point> &points) {
+            for (int i = 0; i < points.size(); i++) {
+                paint(points[i].x, points[i].y, '*');
+                line(points[i].x, points[i].y, points[(i + 1) % points.size()].x, points[(i + 1) % points.size()].y, '*');
+            }
+        }
         void paint(int x, int y, char color) {
             x += m_gridSize;
             y = m_gridSize - y;
@@ -86,19 +99,13 @@ class Grid {
         int m_gridSize = 0;
 };
 
-void drawStar(Grid &grid, int vertices, int step, double initAngle) {
-    for (int i = 0; i < vertices; i++) {
-        for (int t = 0; t < vertices; t++) {
-            int k = i + step * t;
-            int x = round(radius * cos(2 * PI * k / vertices + initAngle));
-            int y = round(radius * sin(2 * PI * k / vertices + initAngle));
-            grid.paint(x, y, '*');
-            int k1 = i + step * (t + 1);
-            int x1 = round(radius * cos(2 * PI * k1 / vertices + initAngle));
-            int y1 = round(radius * sin(2 * PI * k1 / vertices + initAngle));
-            grid.line(x, y, x1, y1, '*');
-        }
-    }
+
+Point apply(Point p, vector<vector<double>> matrix) {
+    Point res;
+    res.x = p.x * matrix[0][0] + p.y * matrix[0][1] + p.z * matrix[0][2];
+    res.y = p.x * matrix[1][0] + p.y * matrix[1][1] + p.z * matrix[1][2];
+    res.z = p.x * matrix[2][0] + p.y * matrix[2][1] + p.z * matrix[2][2];
+    return res;
 }
 
 int main(int argc, char **argv) {
@@ -119,16 +126,53 @@ int main(int argc, char **argv) {
         return 0;
     }
     Grid grid(GRID_SIZE);
-    double rotateSpeed = 0.05;
-    double initAngle = PI / 2;
-    while (true) {
-        initAngle += rotateSpeed;
-        drawStar(grid, vertices, step, initAngle);
-        grid.print();
-        grid.clear();
-        for (int i = 0; i < radius * 2 + 1; i++)
-            printf("\x1B[1A");
-        usleep(40000);
+    bool rotAroundZOrY = false;
+    if (rotAroundZOrY) {
+        double rotateSpeed = 0.05;
+        double initAngle = PI / 2;
+        while (true) {
+            initAngle += rotateSpeed;
+            vector<Point> poly;
+            for (int i = 0; i < vertices; i++) {
+                for (int t = 0; t < vertices; t++) {
+                    int k = i + step * t;
+                    double x = round(radius * cos(2 * PI * k / vertices + initAngle));
+                    double y = round(radius * sin(2 * PI * k / vertices + initAngle));
+                    poly.push_back({x, y, 0});
+                }
+            }
+            grid.drawPolygon(poly);
+            grid.print();
+            grid.clear();
+            for (int i = 0; i < radius * 2 + 1; i++)
+                printf("\x1B[1A");
+            usleep(40000);
+        }
+    } else {
+        double rotateSpeed = 0.05;
+        vector<Point> poly;
+        for (int i = 0; i < vertices; i++) {
+            for (int t = 0; t < vertices; t++) {
+                int k = i + step * t;
+                double x = round(radius * cos(2 * PI * k / vertices + PI / 2));
+                double y = round(radius * sin(2 * PI * k / vertices + PI / 2));
+                Point p = {x, y, 0};
+                poly.push_back(p);
+            }
+        }
+        while (true) {
+            for (Point &p : poly) {
+                p = apply(p, {{cos(rotateSpeed), 0, -sin(rotateSpeed)}, {0, 1, 0}, {sin(rotateSpeed), 0, cos(rotateSpeed)}}); // Y
+                p = apply(p, {{cos(rotateSpeed), -sin(rotateSpeed), 0}, {sin(rotateSpeed), cos(rotateSpeed), 0}, {0, 0, 1}}); // Z
+                //p = apply(p, {{1, 0, 0}, {0, cos(rotateSpeed), -sin(rotateSpeed)}, {0, sin(rotateSpeed), cos(rotateSpeed)}}); // X
+            }
+            grid.drawPolygon(poly);
+            grid.print();
+            grid.clear();
+            for (int i = 0; i < radius * 2 + 1; i++)
+                printf("\x1B[1A");
+            usleep(40000);
+        }
     }
     return 0;
 }

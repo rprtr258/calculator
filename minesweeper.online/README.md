@@ -22,34 +22,34 @@ function click(xy) {
 }
 function getCell(cell) {
     if (cell.classList) {
-				classList = Array.from(cell.classList);
+        classList = Array.from(cell.classList);
         if (classList.includes("clear"))
             return -1;
         if (classList.includes("hd_closed"))
-						return "x";
-				for (let i = 0; i < 4; i++) {
-						if (classList[i].startsWith("hd_type")) {
-								if (classList[i].length == 9)
-										return "X";
-								return classList[i].charAt(7);
-						}
-				}
-		}
+            return "x";
+        for (let i = 0; i < 4; i++) {
+            if (classList[i].startsWith("hd_type")) {
+                if (classList[i].length == 9)
+                    return "X";
+                return classList[i].charAt(7);
+            }
+        }
+    }
     return ""
 }
 function getBoard() {
-		let res = [];
-		let row = [];
-		for (let el of document.getElementById("A43").children) {
-				let x = getCell(el);
-				if (x != -1)
-						row.push(x);
-				else {
-						res.push(row);
-						row = [];
-				}
-		}
-		return res;
+    let res = [];
+    let row = [];
+    for (let el of document.getElementById("A43").children) {
+        let x = getCell(el);
+        if (x != -1)
+            row.push(x);
+        else {
+            res.push(row);
+            row = [];
+        }
+    }
+    return res;
 }
 for (let i = 0; i < 1000; i++) {
     let pos = await fetch("http://localhost:5000/solve?" + new URLSearchParams({

@@ -51,14 +51,16 @@ function getBoard() {
     }
     return res;
 }
-for (let i = 0; i < 1000; i++) {
-    let pos = await fetch("http://localhost:5000/solve?" + new URLSearchParams({
-        board: JSON.stringify(getBoard())
-    }), {
-        method: "GET"
-    }).then(r => r.text());
-    if (pos == "solved")
-        break;
-    click(pos);
-}
+(async() => {
+    for (let i = 0; i < 1000; i++) {
+        let pos = await fetch("http://localhost:5000/solve?" + new URLSearchParams({
+            board: JSON.stringify(getBoard())
+        }), {
+            method: "GET"
+        }).then(r => r.text());
+        if (pos == "solved")
+            break;
+        click(pos);
+    }
+})();
 ```

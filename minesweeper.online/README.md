@@ -13,11 +13,15 @@ function triggerMouseEvent(node, eventType) {
     clickEvent.initEvent(eventType, true, true);
     node.dispatchEvent(clickEvent);
 }
-function click(xy) {
-    e = document.getElementById(`cell_${xy}`);
+function click(elem) {
+    e = document.getElementById(elem);
     triggerMouseEvent(e, "mouseover");
     triggerMouseEvent(e, "mousedown");
     triggerMouseEvent(e, "mouseup");
+    triggerMouseEvent(e, "click");
+}
+function restart() {
+    e = document.getElementById("top_area_face");
     triggerMouseEvent(e, "click");
 }
 function getCell(cell) {
@@ -52,15 +56,23 @@ function getBoard() {
     return res;
 }
 (async() => {
-    for (let i = 0; i < 1000; i++) {
-        let pos = await fetch("http://localhost:5000/solve?" + new URLSearchParams({
-            board: JSON.stringify(getBoard())
-        }), {
-            method: "GET"
-        }).then(r => r.text());
-        if (pos == "solved")
-            break;
-        click(pos);
+	let restarted = false;
+    for (let i = 0; i < 100;i++) {
+        while (true) {
+            let pos = await fetch("http://localhost:5000/solve?" + new URLSearchParams({
+                board: JSON.stringify(getBoard())
+            }), {
+                method: "GET"
+            }).then(r => r.text());
+            if (pos == "solved")
+                break;
+            click(`cell_${pos}`);
+			restarted = false;
+        }
+		if (!restarted) {
+			restart();
+			restarted = true;
+        }
     }
 })();
 ```

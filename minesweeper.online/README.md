@@ -20,6 +20,13 @@ function click(elem) {
     triggerMouseEvent(e, "mouseup");
     triggerMouseEvent(e, "click");
 }
+function click_start() {
+    e = document.querySelector(".hd_closed.start");
+    triggerMouseEvent(e, "mouseover");
+    triggerMouseEvent(e, "mousedown");
+    triggerMouseEvent(e, "mouseup");
+    triggerMouseEvent(e, "click");
+}
 function restart() {
     e = document.getElementById("top_area_face");
     triggerMouseEvent(e, "click");
@@ -57,6 +64,7 @@ function getBoard() {
 }
 (async() => {
 	let restarted = false;
+	click_start();
     for (let i = 0; i < 100;i++) {
         while (true) {
             let pos = await fetch("http://localhost:5000/solve?" + new URLSearchParams({
@@ -72,6 +80,7 @@ function getBoard() {
 		if (!restarted) {
 			restart();
 			restarted = true;
+			click_start();
         }
     }
 })();

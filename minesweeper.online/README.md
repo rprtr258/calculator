@@ -65,6 +65,11 @@ function getBoard() {
 (async() => {
 	let restarted = false;
 	click_start();
+	let pos = await fetch("http://localhost:5000/set/mines_count?" + new URLSearchParams({
+	    mines_count: W9.m20
+	}), {
+	    method: "GET"
+	}).then(r => r.text());
     for (let i = 0; i < 100;i++) {
         while (true) {
             let pos = await fetch("http://localhost:5000/solve?" + new URLSearchParams({

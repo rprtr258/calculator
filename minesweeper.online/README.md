@@ -71,4 +71,4 @@ function getBoard() {
     }
 })();
 ```
-Or save following bookmarklets from [here](https://rprtr258.github.io/bookmarklets.html)
+Or just save bookmarklet from [here](https://rprtr258.github.io/bookmarklets.html)

@@ -72,3 +72,4 @@ function getBoard() {
 })();
 ```
 Or just save bookmarklet from [here](https://rprtr258.github.io/bookmarklets.html)
+which was created using [this](https://mrcoles.com/bookmarklet/) bookmarklet creator.

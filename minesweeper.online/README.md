@@ -20,17 +20,6 @@ function click(elem) {
     triggerMouseEvent(e, "mouseup");
     triggerMouseEvent(e, "click");
 }
-function click_start() {
-    e = document.querySelector(".hd_closed.start");
-    triggerMouseEvent(e, "mouseover");
-    triggerMouseEvent(e, "mousedown");
-    triggerMouseEvent(e, "mouseup");
-    triggerMouseEvent(e, "click");
-}
-function restart() {
-    e = document.getElementById("top_area_face");
-    triggerMouseEvent(e, "click");
-}
 function getCell(cell) {
     if (cell.classList) {
         classList = Array.from(cell.classList);
@@ -63,8 +52,6 @@ function getBoard() {
     return res;
 }
 (async() => {
-	let restarted = false;
-	click_start();
 	let pos = await fetch("http://localhost:5000/set/mines_count?" + new URLSearchParams({
 	    mines_count: W9.m20
 	}), {
@@ -80,12 +67,6 @@ function getBoard() {
             if (pos == "solved")
                 break;
             click(`cell_${pos}`);
-			restarted = false;
-        }
-		if (!restarted) {
-			restart();
-			restarted = true;
-			click_start();
         }
     }
 })();
